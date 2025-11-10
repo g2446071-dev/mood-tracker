@@ -1,0 +1,123 @@
+/* body全体の設定: 画面の中央にアプリを表示 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* 画面いっぱいの高さ */
+}
+
+/* アプリのコンテナ（枠）の設定 */
+.container {
+    width: 90%;
+    max-width: 400px;
+    height: 90vh; /* 画面の高さに合わせる */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative; /* 履歴画面のボタン配置の基準 */
+    overflow-y: auto; /* 記録が増えてもスクロールできるようにする */
+}
+
+/* --- 記録画面のスタイル --- */
+#mood-input-screen {
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 40px;
+}
+
+.mood-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+}
+
+.mood-btn {
+    width: 80px;
+    height: 80px;
+    border: none;
+    border-radius: 50%; /* 円形にする */
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#view-history-btn {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #333;
+    background-color: white;
+    color: #333;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/* --- 履歴画面のスタイル --- */
+#history-screen {
+    /* 画面全体を使うために、コンテナ内の位置を調整 */
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box; /* paddingを含めて幅100%にする */
+}
+
+#history-screen h2 {
+    text-align: center;
+    margin-top: 0;
+}
+
+#mood-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+#mood-list li {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between; /* 日付と気分を左右に離す */
+    align-items: center;
+}
+
+.mood-indicator {
+    display: inline-block;
+    width: 15px; /* やや大きく */
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* 気分ごとの色 */
+.good { background-color: blue; }
+.normal { color: #333; background-color: yellow; }
+.bad { background-color: red; }
+
+/* 「戻る」ボタンを画面の隅に配置 */
+#back-to-input-btn {
+    position: absolute; /* 親要素(.container)を基準に配置 */
+    bottom: 20px; /* 下から20pxの位置 */
+    left: 50%; /* 左から50%の位置 */
+    transform: translateX(-50%); /* 中央寄せ */
+    width: 90%;
+    max-width: 360px; /* 適切な幅に制限 */
+    padding: 12px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
