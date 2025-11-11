@@ -65,7 +65,7 @@ h1 {
 /* --- 履歴画面のスタイル --- */
 #history-screen {
     /* 画面全体を使うために、コンテナ内の位置を調整 */
-    position: absolute; 
+    position: absolute;  
     top: 0;
     left: 0;
     width: 100%;
@@ -95,7 +95,7 @@ h1 {
 
 .mood-indicator {
     display: inline-block;
-    width: 15px; /* やや大きく */
+    width: 15px; 
     height: 15px;
     border-radius: 50%;
     margin-right: 10px;
