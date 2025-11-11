@@ -1,34 +1,33 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>シンプル・ムードトラッカー</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>シンプル・ムードトラッカー</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <div id="mood-input-screen">
-            <h1>今日の気分は？</h1>
-            
-            <div class="mood-buttons">
-                <button class="mood-btn" data-mood="good" style="background-color: blue;">良い</button>
-                <button class="mood-btn" data-mood="normal" style="background-color: yellow; color: #333;">普通</button>
-                <button class="mood-btn" data-mood="bad" style="background-color: red;">悪い</button>
-            </div>
-            
-            <button id="view-history-btn">記録を見る</button>
-        </div>
+    <div class="container">
+        <div id="mood-input-screen">
+            <h1>今日の気分は？</h1>
+            
+            <div class="mood-buttons">
+                <button class="mood-btn" data-mood="good" style="background-color: blue;">良い</button>
+                <button class="mood-btn" data-mood="normal" style="background-color: yellow; color: #333;">普通</button>
+                <button class="mood-btn" data-mood="bad" style="background-color: red;">悪い</button>
+            </div>
+            
+            <button id="view-history-btn">記録を見る</button>
+        </div>
 
-        <div id="history-screen" style="display: none;">
-            <h2>記録の履歴</h2>
-            <ul id="mood-list">
-                </ul>
-            <button id="back-to-input-btn">戻る</button>
-        </div>
-    </div>
+        <div id="history-screen" style="display: none;">
+            <h2>記録の履歴</h2>
+            <ul id="mood-list">
+                </ul>
+            <button id="back-to-input-btn">戻る</button>
+        </div>
+    </div>
 
-    <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
-
