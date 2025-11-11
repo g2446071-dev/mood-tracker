@@ -1,120 +1,112 @@
-// =======================================================
-// 1. 要素の取得
-// =======================================================
-const inputScreen = document.getElementById('mood-input-screen');
-const historyScreen = document.getElementById('history-screen');
-const moodButtons = document.querySelectorAll('.mood-btn');
-const viewHistoryBtn = document.getElementById('view-history-btn');
-const backToInputBtn = document.getElementById('back-to-input-btn');
-const moodList = document.getElementById('mood-list');
+document.addEventListener('DOMContentLoaded', () => {
+    // DOM要素の取得
+    const moodInputScreen = document.getElementById('mood-input-screen');
+    const historyScreen = document.getElementById('history-screen');
+    const moodButtons = document.querySelectorAll('.mood-btn');
+    const viewHistoryBtn = document.getElementById('view-history-btn');
+    const backToInputBtn = document.getElementById('back-to-input-btn');
+    const moodList = document.getElementById('mood-list');
 
-// =======================================================
-// 2. 画面切り替えの関数
-// =======================================================
+    // --- 画面切り替え関数 ---
+    const showScreen = (screenToShow) => {
+        moodInputScreen.style.display = 'none';
+        historyScreen.style.display = 'none';
+        screenToShow.style.display = 'block';
+    };
 
-// 履歴画面を表示
-viewHistoryBtn.addEventListener('click', () => {
-    inputScreen.style.display = 'none';
-    historyScreen.style.display = 'block';
-    renderMoods(); // 履歴画面に切り替える時にデータを表示する
-});
+    // --- ローカルストレージ操作関数 ---
 
-// 記録画面に戻る
-backToInputBtn.addEventListener('click', () => {
-    historyScreen.style.display = 'none';
-    inputScreen.style.display = 'block';
-});
+    // 記録を取得する
+    const getMoodHistory = () => {
+        const historyJson = localStorage.getItem('moodTrackerHistory');
+        // JSON文字列をパースし、存在しない場合は空の配列を返す
+        return historyJson ? JSON.parse(historyJson) : [];
+    };
 
-// =======================================================
-// 3. データの保存と読み込み
-// =======================================================
+    // 記録を保存する
+    const saveMood = (mood) => {
+        const history = getMoodHistory();
+        const now = new Date();
+        // YYYY-MM-DD 形式の日付文字列を作成
+        const dateString = now.toLocaleDateString('ja-JP', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        }).replace(/\//g, '-'); // '2025/11/11' -> '2025-11-11' に変換
 
-// localStorageからデータを読み込む関数
-function getMoods() {
-    // localStorageから'moods'というキーでデータを取得
-    const storedMoods = localStorage.getItem('moods');
-    // JSON.parse()を使って文字列をJavaScriptのオブジェクト（配列）に戻す
-    return storedMoods ? JSON.parse(storedMoods) : [];
-}
-
-// データをlocalStorageに保存する関数
-function saveMoods(moods) {
-    // JSON.stringify()を使ってJavaScriptのオブジェクト（配列）を文字列に変換する
-    localStorage.setItem('moods', JSON.stringify(moods));
-}
-
-// =======================================================
-// 4. 気分を記録するロジック
-// =======================================================
-
-moodButtons.forEach(button => {
-    button.addEventListener('click', (event) => {
-        // クリックされたボタンの'data-mood'属性（good, normal, bad）を取得
-        const selectedMood = event.target.getAttribute('data-mood');
-        const currentDate = new Date();
-        
-        // データを配列に追加
-        const moods = getMoods();
-        
-        // 日付をYYYY/MM/DD形式でフォーマット
-        const dateString = `${currentDate.getFullYear()}/${currentDate.getMonth() + 1}/${currentDate.getDate()}`;
-        
-        // 新しい記録オブジェクト
-        const newRecord = {
+        const newEntry = {
             date: dateString,
-            mood: selectedMood
+            mood: mood
         };
+
+        // 新しい記録を履歴の最初に追加（新しいものが上に来るように）
+        history.unshift(newEntry); 
         
-        // 記録を追加して保存
-        moods.push(newRecord);
-        saveMoods(moods);
-        
-        // 記録が完了したことをユーザーに通知
-        alert(`${dateString}の気分を「${event.target.textContent}」として記録しました！`);
-    });
-});
+        // ローカルストレージに保存
+        localStorage.setItem('moodTrackerHistory', JSON.stringify(history));
+    };
 
-// =======================================================
-// 5. 履歴をリストに表示するロジック
-// =======================================================
+    // --- 履歴表示関数 ---
+    const renderHistory = () => {
+        const history = getMoodHistory();
+        moodList.innerHTML = ''; // リストをクリア
 
-function renderMoods() {
-    const moods = getMoods();
-    // 一度リストの中身を空にする
-    moodList.innerHTML = ''; 
-
-    if (moods.length === 0) {
-        moodList.innerHTML = '<li>まだ記録がありません。</li>';
-        return;
-    }
-
-    // 最新の記録が上に来るように逆順で表示
-    // forEach()を使って一つずつ要素を処理しています
-    moods.slice().reverse().forEach(record => {
-        const listItem = document.createElement('li');
-        
-        // 気分に合わせて表示する日本語テキストを決定
-        let moodText = '';
-        switch (record.mood) {
-            case 'good':
-                moodText = '良い';
-                break;
-            case 'normal':
-                moodText = '普通';
-                break;
-            case 'bad':
-                moodText = '悪い';
-                break;
+        if (history.length === 0) {
+            moodList.innerHTML = '<li>まだ記録がありません。</li>';
+            return;
         }
 
-        // リストアイテムのHTMLを生成
-        listItem.innerHTML = `
-            <span>${record.date}</span>
-            <span style="display: flex; align-items: center;">
-                <span class="mood-indicator ${record.mood}"></span>
-                ${moodText}
-            </span>
-        `;
-        moodList.appendChild(listItem);
+        history.forEach(entry => {
+            const listItem = document.createElement('li');
+            // 気分の値を日本語に変換して表示
+            let moodText = '';
+            let moodColor = '';
+            
+            switch (entry.mood) {
+                case 'good':
+                    moodText = '良い 😊';
+                    moodColor = 'blue';
+                    break;
+                case 'normal':
+                    moodText = '普通 😐';
+                    moodColor = '#daa520'; // Gold系の色
+                    break;
+                case 'bad':
+                    moodText = '悪い 😔';
+                    moodColor = 'red';
+                    break;
+                default:
+                    moodText = entry.mood;
+                    moodColor = 'gray';
+            }
+
+            listItem.innerHTML = `**${entry.date}**: <span style="font-weight: bold; color: ${moodColor};">${moodText}</span>`;
+            moodList.appendChild(listItem);
+        });
+    };
+
+    // --- イベントリスナー設定 ---
+
+    // 1. 気分ボタンのクリックイベント
+    moodButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            const mood = event.target.dataset.mood;
+            saveMood(mood);
+            alert(`気分「${mood}」を記録しました！`); // 記録完了をユーザーに通知
+        });
     });
-}
+
+    // 2. 「記録を見る」ボタンのクリックイベント
+    viewHistoryBtn.addEventListener('click', () => {
+        renderHistory(); // 履歴をレンダリング
+        showScreen(historyScreen); // 履歴画面へ切り替え
+    });
+
+    // 3. 「戻る」ボタンのクリックイベント
+    backToInputBtn.addEventListener('click', () => {
+        showScreen(moodInputScreen); // 入力画面へ切り替え
+    });
+
+    // アプリ起動時の初期画面表示 (既に入力画面が表示されている想定)
+    // showScreen(moodInputScreen); 
+});
