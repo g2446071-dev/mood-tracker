@@ -120,4 +120,85 @@ h1 {
     border: none;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+}
+
+
+/* body: 背景色をより暖かく、全体的なフォントサイズを調整 */
+body {
+    background-color: #f0f3f5; 
+}
+
+/* container: 影を深くして立体感を出す */
+.container {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* h1: 文字を大きく、色を調整 */
+h1 {
+    color: #4a4a4a;
+    font-size: 24px;
+}
+
+/* mood-btn: ボタンを大きく、アニメーションと影を追加 */
+.mood-btn {
+    width: 90px;
+    height: 90px;
+    font-size: 20px;
+    border: 3px solid transparent; 
+    transition: all 0.2s ease-in-out; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.mood-btn:hover {
+    transform: scale(1.08); /* ホバーで拡大 */
+    opacity: 0.9;
+    border: 3px solid #333; /* ホバーで枠線を見せる */
+}
+
+/* 記録を見るボタン: 統一感のあるデザインに */
+#view-history-btn {
+    padding: 12px;
+    border: none;
+    background-color: #6c757d;
+    color: white;
+    border-radius: 8px;
+    margin-top: 25px;
+    transition: background-color 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#view-history-btn:hover {
+    background-color: #5a6268;
+}
+
+/* 履歴リスト: 文字を大きく、パディングを調整 */
+#mood-list {
+    padding: 0 10px;
+}
+
+#mood-list li {
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 17px;
+}
+
+/* ムードインジケーター: サイズを大きく */
+.mood-indicator {
+    width: 18px; 
+    height: 18px;
+    margin-right: 12px;
+}
+
+/* 戻るボタン: 位置とデザインを調整 */
+#back-to-input-btn {
+    bottom: 30px; 
+    padding: 12px;
+    background-color: #4a4a4a;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+#back-to-input-btn:hover {
+    background-color: #333;
 }
